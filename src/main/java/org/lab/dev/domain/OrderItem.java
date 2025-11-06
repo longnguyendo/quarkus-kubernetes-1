@@ -2,30 +2,30 @@ package org.lab.dev.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.lab.dev.domain.enums.CartStatus;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = false)
 @Entity
-@Table(name="carts")
-public class Cart extends AbstractEntity {
-
-    @ManyToOne
-    private Customer customer;
+@Table(name = "order_items")
+public class OrderItem extends AbstractEntity{
 
     @NotNull
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private CartStatus status;
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
 }
