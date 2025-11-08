@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDto {
+public class CategoryDto {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String telephone;
+    private String name;
+    private String description;
+    private Long products;
 }
