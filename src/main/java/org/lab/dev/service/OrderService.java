@@ -31,10 +31,10 @@ public class OrderService {
     @Inject
     CartRepository cartRepository;
 
-    public static OrderDto mapToDo(Order order) {
+    public static OrderDto mapToDto(Order order) {
 
         Set<OrderItemDto> orderItems = order.getOrderItems()
-                .stream().map(OrderItemService::mapToDo)
+                .stream().map(OrderItemService::mapToDto)
                 .collect(Collectors.toSet());
 
         return new OrderDto(
@@ -52,21 +52,21 @@ public class OrderService {
     public List<OrderDto> findAll() {
         log.debug("Request all order ");
         return this.orderRepository.findAll().stream()
-                .map(OrderService::mapToDo)
+                .map(OrderService::mapToDto)
                 .collect(Collectors.toList());
     }
 
     public OrderDto findById(Long id) {
         log.debug("Request to find order id : {}", id);
         return this.orderRepository.findById(id)
-                .map(OrderService::mapToDo)
+                .map(OrderService::mapToDto)
                 .orElse(null);
     }
 
     public List<OrderDto> findAllByUser(Long id) {
         log.debug("Request to find all order by user id: {}", id);
         return this.orderRepository.findByCartCustomerId(id)
-                .stream().map(OrderService::mapToDo)
+                .stream().map(OrderService::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -77,7 +77,7 @@ public class OrderService {
         var cart = this.cartRepository.findById(cardId)
                 .orElseThrow(() -> new IllegalStateException("The Cart with ID " + cardId +  "was not found !"));
 
-        return mapToDo(
+        return mapToDto(
                 this.orderRepository.save(
                         new Order(
                                 BigDecimal.ZERO,

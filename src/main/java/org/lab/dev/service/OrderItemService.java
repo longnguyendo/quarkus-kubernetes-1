@@ -22,7 +22,7 @@ public class OrderItemService {
     @Inject
     ProductRepository productRepository;
 
-    public static OrderItemDto mapToDo(OrderItem orderItem) {
+    public static OrderItemDto mapToDto(OrderItem orderItem) {
         return new OrderItemDto(
                 orderItem.getId(),
                 orderItem.getQuantity(),
@@ -34,7 +34,7 @@ public class OrderItemService {
     public OrderItemDto findById(Long id) {
         log.debug("Request find orderItem id : {}", id);
         return this.orderItemRepository.findById(id)
-                .map(OrderItemService::mapToDo)
+                .map(OrderItemService::mapToDto)
                 .orElse(null);
     }
 
@@ -57,7 +57,7 @@ public class OrderItemService {
         order.setPrice(order.getPrice().add(orderItem.getProduct().getPrice()));
         this.orderRepository.save(order);
 
-        return mapToDo(orderItem);
+        return mapToDto(orderItem);
     }
 
     public void delete(Long id) {

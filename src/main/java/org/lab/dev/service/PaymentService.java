@@ -26,7 +26,7 @@ public class PaymentService {
     @Inject
     OrderRepository orderRepository;
 
-    public static PaymentDto mapToDo(Payment payment, Long orderId) {
+    public static PaymentDto mapToDto(Payment payment, Long orderId) {
         if (payment != null) {
             return new PaymentDto(
                     payment.getId(),
@@ -42,7 +42,7 @@ public class PaymentService {
         return this.paymentRepository
                 .findAllByAmountBetween(BigDecimal.ZERO, BigDecimal.valueOf(max))
                 .stream()
-                .map(payment -> mapToDo(payment, findOrderPaymentId(payment.getId()).getId()))
+                .map(payment -> mapToDto(payment, findOrderPaymentId(payment.getId()).getId()))
                 .collect(Collectors.toList());
     }
 
@@ -58,7 +58,7 @@ public class PaymentService {
         var order = findOrderPaymentId(id);
         return this.paymentRepository
                 .findById(id)
-                .map(payment -> mapToDo(payment, order.getId()))
+                .map(payment -> mapToDto(payment, order.getId()))
                 .orElse(null);
     }
 
@@ -81,7 +81,7 @@ public class PaymentService {
 
         this.orderRepository.saveAndFlush(order);
 
-        return mapToDo(payment, order.getId());
+        return mapToDto(payment, order.getId());
     }
 
     public void delete (Long id) {

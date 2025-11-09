@@ -22,7 +22,7 @@ public class CategorySevice {
     @Inject
     ProductRepository productRepository;
 
-    public static CategoryDto mapToDo(Category category, Long productsCount) {
+    public static CategoryDto mapToDto(Category category, Long productsCount) {
         return new CategoryDto(
                 category.getId(),
                 category.getName(),
@@ -36,20 +36,20 @@ public class CategorySevice {
         return this.categoryRepository.findAll()
                 .stream()
                 .map(category ->
-                        mapToDo(category, productRepository.countAllCategoryId(category.getId())))
+                        mapToDto(category, productRepository.countAllCategoryId(category.getId())))
                 .collect(Collectors.toList());
     }
 
     public CategoryDto findById(Long id) {
         log.debug("Request to get category by id: {}", id);
         return this.categoryRepository.findById(id)
-                .map(category -> mapToDo(category, productRepository.countAllCategoryId(category.getId())))
+                .map(category -> mapToDto(category, productRepository.countAllCategoryId(category.getId())))
                 .orElse(null);
     }
 
     public CategoryDto create(CategoryDto categoryDto) {
         log.debug("Request to create a new category: {}", categoryDto);
-        return mapToDo(this.categoryRepository
+        return mapToDto(this.categoryRepository
                 .save(new Category(categoryDto.getName(), categoryDto.getDescription())), 0L);
     }
 
