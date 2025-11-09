@@ -1,4 +1,108 @@
 package org.lab.dev.service;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.lab.dev.domain.Order;
+import org.lab.dev.domain.enums.OrderStatus;
+import org.lab.dev.repository.CartRepository;
+import org.lab.dev.repository.OrderRepository;
+import org.lab.dev.repository.PaymentRepository;
+import org.lab.dev.web.dto.OrderDto;
+import org.lab.dev.web.dto.OrderItemDto;
+
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Slf4j
+@ApplicationScoped
+@Transactional
 public class OrderService {
+
+    @Inject
+    OrderRepository orderRepository;
+    @Inject
+    PaymentRepository paymentRepository;
+    @Inject
+    CartRepository cartRepository;
+
+    public static OrderDto mapToDto(Order order) {
+
+        Set<OrderItemDto> orderItems = order.getOrderItems()
+                .stream().map(OrderItemService::mapToDto)
+                .collect(Collectors.toSet());
+
+        return new OrderDto(
+                order.getId(),
+                order.getPrice(),
+                order.getStatus().name(),
+                order.getShipped(),
+                order.getPayment() != null ? order.getPayment().getId() : null,
+                AddressService.mapToDto(order.getShipmentAddress()),
+                orderItems,
+                CartService.mapToDto(order.getCart())
+        );
+    }
+
+    public List<OrderDto> findAll() {
+        log.debug("Request all order ");
+        return this.orderRepository.findAll().stream()
+                .map(OrderService::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    public OrderDto findById(Long id) {
+        log.debug("Request to find order id : {}", id);
+        return this.orderRepository.findById(id)
+                .map(OrderService::mapToDto)
+                .orElse(null);
+    }
+
+    public List<OrderDto> findAllByUser(Long id) {
+        log.debug("Request to find all order by user id: {}", id);
+        return this.orderRepository.findByCartCustomerId(id)
+                .stream().map(OrderService::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    public OrderDto create(OrderDto orderDto) {
+        log.debug("Request to create Order: {}", orderDto);
+
+        var cardId = orderDto.getCart().getId();
+        var cart = this.cartRepository.findById(cardId)
+                .orElseThrow(() -> new IllegalStateException("The Cart with ID " + cardId +  "was not found !"));
+
+        return mapToDto(
+                this.orderRepository.save(
+                        new Order(
+                                BigDecimal.ZERO,
+                                OrderStatus.CREATION,
+                                null,
+                                null,
+                                AddressService.createFormDto(orderDto.getShipmentAddress()),
+                                Collections.emptySet(),
+                                cart
+                        )
+                )
+        );
+    }
+
+    public void delete (Long id) {
+        log.debug("Request delete Order Id : {}", id);
+
+        var order = this.orderRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("This order id " + id + " cannot found"));
+        Optional.ofNullable(order.getPayment()).ifPresent(paymentRepository::delete);
+
+        orderRepository.delete(order);
+    }
+
+    public boolean existById(Long id) {
+        return this.orderRepository.existsById(id);
+    }
 }

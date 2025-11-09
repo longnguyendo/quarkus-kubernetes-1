@@ -10,7 +10,6 @@ import org.lab.dev.web.dto.CustomerDto;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -21,7 +20,7 @@ public class CustomerService {
     @Inject
     CustomerRepository customerRepository;
 
-    public static CustomerDto mapToDo(Customer customer){
+    public static CustomerDto mapToDto(Customer customer){
         return new CustomerDto(
                 customer.getId(),
                 customer.getFirstName(),
@@ -33,7 +32,7 @@ public class CustomerService {
 
     public CustomerDto create(CustomerDto customerDto) {
         log.debug("Request create a new customer: {}", customerDto);
-        return mapToDo(this.customerRepository.save(
+        return mapToDto(this.customerRepository.save(
                 new Customer(
                         customerDto.getFirstName(),
                         customerDto.getLastName(),
@@ -48,21 +47,21 @@ public class CustomerService {
         log.debug("Request to get all Customers");
         return this.customerRepository.findAll()
                 .stream()
-                .map(CustomerService::mapToDo)
+                .map(CustomerService::mapToDto)
                 .collect(Collectors.toList());
     }
 
     public CustomerDto findById(Long id) {
         log.debug("Request find by id: {}", id);
         return this.customerRepository.findById(id)
-                .map(CustomerService::mapToDo).orElse(null);
+                .map(CustomerService::mapToDto).orElse(null);
     }
 
     public List<CustomerDto> findAllActive() {
         log.debug("Request find all active customers");
         return this.customerRepository.findAllByEnabled(true)
                 .stream()
-                .map(CustomerService::mapToDo)
+                .map(CustomerService::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -70,7 +69,7 @@ public class CustomerService {
         log.debug("Request find all inactive customer");
         return this.customerRepository.findAllByEnabled(false)
                 .stream()
-                .map(CustomerService::mapToDo)
+                .map(CustomerService::mapToDto)
                 .collect(Collectors.toList());
     }
 
