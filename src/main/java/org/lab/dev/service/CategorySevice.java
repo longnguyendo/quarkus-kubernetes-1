@@ -64,7 +64,7 @@ public class CategorySevice {
     public List<ProductDto> findProductsByCategoryId(Long id) {
         return this.productRepository.findAllByCategoryId(id)
                 .stream()
-                .map(ProductService::mapToDo)
+                .map(ProductService::mapToDto)
                 .collect(Collectors.toList());
     }
 }

@@ -32,5 +32,5 @@ public class Review extends AbstractEntity{
 
     @NotNull
     @Column(name = "rating", nullable = false)
-    private String rating;
+    private Long rating;
 }

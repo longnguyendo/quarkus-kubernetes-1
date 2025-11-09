@@ -27,7 +27,7 @@ public class CartService {
     public static CartDto mapToDto(Cart cart) {
         return new CartDto(
                 cart.getId(),
-                CustomerService.mapToDto(cart.getCustomer()),
+                CustomerService.mapToDo(cart.getCustomer()),
                 cart.getStatus().name()
         );
     }

@@ -1,16 +1,18 @@
 package org.lab.dev.web.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @ editor Logan Nguyen
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentDto {
+public class ReviewDto {
     private Long id;
-    private String paypalPaymentId;
-    private String status;
-    private Long orderId;
+    private String title;
+    private String description;
+    private Long rating;
 }
