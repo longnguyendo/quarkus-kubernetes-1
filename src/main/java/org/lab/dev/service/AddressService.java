@@ -13,13 +13,13 @@ import org.lab.dev.web.dto.AddressDto;
 public class AddressService {
 
     public static Address createFormDto(AddressDto addressDto) {
-        return new Address(
-                addressDto.getAddress1(),
-                addressDto.getAddress2(),
-                addressDto.getCity(),
-                addressDto.getPostcode(),
-                addressDto.getCountry()
-        );
+        return Address.builder()  // This uses the Builder from Address class
+                .address1(addressDto.getAddress1())
+                .address2(addressDto.getAddress2())
+                .city(addressDto.getCity())
+                .postcode(addressDto.getPostcode())
+                .country(addressDto.getCountry())
+                .build();
     }
 
     public static AddressDto mapToDto(Address address) {
