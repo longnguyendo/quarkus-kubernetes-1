@@ -12,14 +12,14 @@ import org.lab.dev.web.dto.AddressDto;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AddressService {
 
-    public static Address createFormDto(AddressDto addressDto) {
-        return Address.builder()  // This uses the Builder from Address class
-                .address1(addressDto.getAddress1())
-                .address2(addressDto.getAddress2())
-                .city(addressDto.getCity())
-                .postcode(addressDto.getPostcode())
-                .country(addressDto.getCountry())
-                .build();
+    public static Address createFromDto(AddressDto addressDto) {
+        return new Address(
+                addressDto.getAddress1(),
+                addressDto.getAddress2(),
+                addressDto.getCity(),
+                addressDto.getPostcode(),
+                addressDto.getCountry()
+        );
     }
 
     public static AddressDto mapToDto(Address address) {

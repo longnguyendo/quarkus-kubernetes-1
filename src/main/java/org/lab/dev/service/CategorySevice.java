@@ -36,14 +36,14 @@ public class CategorySevice {
         return this.categoryRepository.findAll()
                 .stream()
                 .map(category ->
-                        mapToDto(category, productRepository.countAllCategoryId(category.getId())))
+                        mapToDto(category, productRepository.countAllByCategoryId(category.getId())))
                 .collect(Collectors.toList());
     }
 
     public CategoryDto findById(Long id) {
         log.debug("Request to get category by id: {}", id);
         return this.categoryRepository.findById(id)
-                .map(category -> mapToDto(category, productRepository.countAllCategoryId(category.getId())))
+                .map(category -> mapToDto(category, productRepository.countAllByCategoryId(category.getId())))
                 .orElse(null);
     }
 

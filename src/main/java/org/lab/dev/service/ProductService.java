@@ -83,6 +83,6 @@ public class ProductService {
     }
 
     public Long countByCategoryId(Long id) {
-        return this.productRepository.countAllCategoryId(id);
+        return this.productRepository.countAllByCategoryId(id);
     }
 }

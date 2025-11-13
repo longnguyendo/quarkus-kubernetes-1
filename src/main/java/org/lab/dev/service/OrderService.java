@@ -84,7 +84,7 @@ public class OrderService {
                                 OrderStatus.CREATION,
                                 null,
                                 null,
-                                AddressService.createFormDto(orderDto.getShipmentAddress()),
+                                AddressService.createFromDto(orderDto.getShipmentAddress()),
                                 Collections.emptySet(),
                                 cart
                         )
