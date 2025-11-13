@@ -102,7 +102,7 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
-    public boolean existById(Long id) {
+    public boolean existsById(Long id) {
         return this.orderRepository.existsById(id);
     }
 }

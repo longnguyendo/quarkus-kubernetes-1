@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @ApplicationScoped
 @Transactional
-public class CategorySevice {
+public class CategoryService {
     @Inject
     CategoryRepository categoryRepository;
     @Inject
