@@ -13,6 +13,7 @@ import lombok.ToString;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = false)
@@ -36,6 +37,6 @@ public class Customer extends AbstractEntity {
     @OneToMany(mappedBy = "customer")
     private Set<Cart> carts;
 
-    @Column(name = "enable", nullable = false)
-    private Boolean enable;
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled;
 }

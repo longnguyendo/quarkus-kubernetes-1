@@ -31,9 +31,9 @@ public class ReviewService {
         );
     }
 
-    public List<ReviewDto> findReviewsByProductId(Long id) {
+    public List<ReviewDto> findByProduct_Id(Long id) {
         log.debug("Request to get all Reviews");
-        return this.reviewRepository.findReviewByProductId(id)
+        return this.reviewRepository.findByProduct_Id(id)
                 .stream()
                 .map(ReviewService::mapToDto)
                 .collect(Collectors.toList());
@@ -72,7 +72,7 @@ public class ReviewService {
         var review = this.reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalStateException("Product with ID:" + reviewId + " was not found !"));
 
-        var product = this.productRepository.findProductByReviewId(reviewId);
+        var product = this.productRepository.findByReviews_Id(reviewId);
 
         product.getReviews().remove(review);
 

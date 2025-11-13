@@ -79,7 +79,7 @@ public class CustomerService {
         var customer = this.customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Cannot find this customer"));
 
-        customer.setEnable(false);
+        customer.setEnabled(false);
         this.customerRepository.save(customer);
     }
 }

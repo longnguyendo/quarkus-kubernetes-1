@@ -24,6 +24,7 @@ import java.time.ZonedDateTime;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = false)

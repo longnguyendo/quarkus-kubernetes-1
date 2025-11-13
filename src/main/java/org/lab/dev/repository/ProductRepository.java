@@ -11,10 +11,10 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategoryId(Long categoryId);
 
-    Long countAllCategoryId(Long categoryId);
+    Long countAllByCategoryId(Long categoryId);
 
-    @Query("Select p from Product p JOIN p.reviews r Where r.id = ?1")
-    Product findProductByReviewId(Long reviewId);
+//    @Query("Select p from Product p JOIN p.reviews r Where r.id = ?1, nativeQuery = true")
+    Product findByReviews_Id(Long reviewId);
 
     void deleteAllByCategoryId(Long id);
 
