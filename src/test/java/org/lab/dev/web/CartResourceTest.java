@@ -1,9 +1,26 @@
 package org.lab.dev.web;
 
-@DisabledOnNativeImage
+import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.junit.DisabledOnIntegrationTest;
+import io.quarkus.test.junit.QuarkusTest;
+//import io.quarkus.test.junit.DisabledOnNativeImage;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.lab.dev.utils.TestContainerResource;
+import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
+
+import javax.sql.DataSource;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThan;
+
+//@DisabledOnNativeImage
+@DisabledOnIntegrationTest
 @QuarkusTest
 @QuarkusTestResource(TestContainerResource.class)
-@QuarkusTestResource(KeycloakRealmResource.class)
+//@QuarkusTestResource(KeycloakRealmResource.class)
 class CartResourceTest {
 
     private static final String INSERT_WRONG_CART_IN_DB =
@@ -371,3 +388,4 @@ class CartResourceTest {
         }
     }
 }
+
