@@ -40,7 +40,7 @@ public class CartService {
                 .collect(Collectors.toList());
     }
 
-    public List<CartDto> findAllActiveCart() {
+    public List<CartDto> findAllActiveCarts() {
         return this.cartRepository.findByStatus(CartStatus.NEW)
                 .stream()
                 .map(CartService::mapToDto)

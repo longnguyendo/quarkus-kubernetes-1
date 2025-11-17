@@ -10,6 +10,9 @@ import org.lab.dev.repository.OrderRepository;
 import org.lab.dev.repository.ProductRepository;
 import org.lab.dev.web.dto.OrderItemDto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @ApplicationScoped
 @Transactional
@@ -73,5 +76,13 @@ public class OrderItemService {
         order.getOrderItems().remove(orderItem);
 
         this.orderRepository.save(order);
+    }
+
+    public List<OrderItemDto> findByOrderId(Long id) {
+        log.debug("Request to get all OrderItems of OrderId {}", id);
+        return this.orderItemRepository.findAllByOrderId(id)
+                .stream()
+                .map(OrderItemService::mapToDto)
+                .collect(Collectors.toList());
     }
 }
