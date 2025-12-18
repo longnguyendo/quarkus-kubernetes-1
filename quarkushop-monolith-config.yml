@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: quarkushop-monolith-config
+  name: quarkus-kubernetes1-config
 data:
   application.properties: |-
     quarkus.datasource.jdbc.url=jdbc:postgresql://postgres:5432/demo
